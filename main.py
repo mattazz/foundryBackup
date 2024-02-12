@@ -45,6 +45,15 @@ def main():
             curr = int(status.progress() * 100)
             progress_bar(curr)
     print("Upload Complete!")
+    print("Deleting the backup file now...")
+    delete_file(backUp_name)
+
+
+def delete_file(file_path):
+    print_hash(20)
+    print(f"Deleting {file_path}")
+    print_hash(20)
+    os.remove(file_path)
 
 
 def progress_bar(curr):
@@ -77,7 +86,7 @@ def zip_directory(directory_path, zip_path):
 
 
 def print_hash(num):
-    res = num * "#"
+    res = num * "-"
     print(res)
 
 
