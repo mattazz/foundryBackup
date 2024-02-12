@@ -42,10 +42,19 @@ def main():
         status, response = request.next_chunk()
         if status:
             print("Uploaded %d%%." % int(status.progress() * 100))
+            curr = int(status.progress() * 100)
+            progress_bar(curr)
     print("Upload Complete!")
 
 
-def check_backup_dir(dir) -> bool:
+def progress_bar(curr):
+    max = 100
+    spaces = " " * (max - curr)
+    hashes = "#" * curr
+    print(f"[{hashes}{spaces}]")
+
+
+def check_backup_dir(dir):
     print("Checking path if valid...")
     backup_file_names = ["Backups", "Config", "Data", "Logs"]
     with os.scandir(dir) as entries:
