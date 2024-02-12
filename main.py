@@ -4,6 +4,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from datetime import datetime
+from google.auth.transport.requests import Request
 
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 
@@ -34,6 +35,7 @@ def main():
         "parents": ["1IxVV6fi73MZ9UqqqmNSjz124deqbVLnm"],
     }
     media = MediaFileUpload(backUp_name, mimetype="application/zip", resumable=True)
+    print(f"Uploading {backUp_name} to Google Drive...")
     request = drive_service.files().create(body=file_metadata, media_body=media)
 
     response = None
