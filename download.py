@@ -12,6 +12,8 @@ from googleapiclient.http import MediaIoBaseDownload
 
 import utils
 
+download_path = os.path.expanduser("~/Library/Application Support/FoundryVTT")
+
 
 def main():
     print(
