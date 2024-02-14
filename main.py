@@ -7,12 +7,22 @@ from datetime import datetime
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 
-from utils import print_hash
+import utils
 
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 
 def main():
+    print(
+        """
+ _____ ___  _   _ _   _ ____  ______   __  _   _ ____  _     ___    _    ____
+|  ___/ _ \| | | | \ | |  _ \|  _ \ \ / / | | | |  _ \| |   / _ \  / \  |  _ \
+| |_ | | | | | | |  \| | | | | |_) \ V /  | | | | |_) | |  | | | |/ _ \ | | | |
+|  _|| |_| | |_| | |\  | |_| |  _ < | |   | |_| |  __/| |__| |_| / ___ \| |_| |
+|_|   \___/ \___/|_| \_|____/|_| \_\|_|    \___/|_|   |_____\___/_/   \_\____/
+
+          """
+    )
     now = datetime.now()
     date_string = now.strftime("%Y-%m-%d_%H-%M-%S")
 
@@ -24,24 +34,24 @@ def main():
             if check_backup_dir(file_path):  # Checks if path is valid
                 print("Valid backup path! Zipping files...")
                 zip_directory(file_path, backUp_name)
-                print_hash(20)
+                utils.print_hash(20)
                 print(f"File zipped as {backUp_name}!")
-                print_hash(20)
+                utils.print_hash(20)
                 break
             else:
-                print_hash(20)
+                utils.print_hash(20)
                 print("Can't zip files, directory is not a valid foundry directory")
         except:
-            print_hash(40)
+            utils.print_hash(40)
             print("Error accessing Foundry directory, checking MAC filepath")
             file_path = os.path.expanduser("~/Library/Application Support/FoundryVTT")
             if not check_backup_dir(file_path):  # Check if Mac filepath is valid
-                print_hash(40)
+                utils.print_hash(40)
                 print("Mac filepath is also not valid. Please provide a valid path.")
                 break  # Break the loop if Mac filepath is not valid
 
     # Authentication and uploading
-    drive_service = authenticate_google_drive()
+    drive_service = utils.authenticate_google_drive()
 
     file_metadata = {
         "name": backUp_name,
@@ -58,28 +68,21 @@ def main():
         if status:
             print("Uploaded %d%%." % int(status.progress() * 100))
             curr = int(status.progress() * 100)
-            progress_bar(curr)
+            utils.progress_bar(curr)
     print("Upload Complete!")
     print("Deleting the backup file now...")
     delete_file(backUp_name)
 
 
 def delete_file(file_path):
-    print_hash(20)
+    utils.print_hash(20)
     print(f"Deleting {file_path}")
-    print_hash(20)
+    utils.print_hash(20)
     os.remove(file_path)
 
 
-def progress_bar(curr):
-    max = 100
-    spaces = " " * (max - curr)
-    hashes = "#" * curr
-    print(f"[{hashes}{spaces}]")
-
-
 def check_backup_dir(dir):
-    print_hash(40)
+    utils.print_hash(40)
     print(f"Checking path if valid: {dir}")
     backup_file_names = ["Backups", "Config", "Data", "Logs"]
     print(os.listdir(dir))
@@ -102,21 +105,6 @@ def zip_directory(directory_path, zip_path):
                         os.path.join(root, file), os.path.join(directory_path, "..")
                     ),
                 )
-
-
-def authenticate_google_drive():
-    creds = None
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
-            creds = flow.run_local_server(port=0)
-        with open("token.json", "w") as token:
-            token.write(creds.to_json())
-    return build("drive", "v3", credentials=creds)
 
 
 if __name__ == "__main__":

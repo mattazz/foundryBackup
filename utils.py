@@ -11,11 +11,21 @@ SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 
 def print_hash(num):
+    """_summary_
+    Creates pretty boundaries for terminal text.
+    Args:
+        num (int): Number of border characters to print
+    """
     res = num * "-"
     print(res)
 
 
 def authenticate_google_drive():
+    """_summary_
+    Requests authentication from Google API
+    Returns:
+        _type_: gDrive build object
+    """
     creds = None
     if os.path.exists("token.json"):
         creds = Credentials.from_authorized_user_file("token.json", SCOPES)
@@ -31,6 +41,11 @@ def authenticate_google_drive():
 
 
 def progress_bar(curr):
+    """_summary_
+    Pretty terminal progress bar
+    Args:
+        curr (int): _description_
+    """
     max = 100
     spaces = " " * (max - curr)
     hashes = "#" * curr
