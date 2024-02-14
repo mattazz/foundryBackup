@@ -5,27 +5,40 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from datetime import datetime
 from google.auth.transport.requests import Request
+from google_auth_oauthlib.flow import InstalledAppFlow
+
+from utils import print_hash
 
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 
 def main():
-
     now = datetime.now()
     date_string = now.strftime("%Y-%m-%d_%H-%M-%S")
 
     file_path = "C:\\Users\\Matt\\AppData\\Local\\FoundryVTT"  # Foundry backup files
     backUp_name = f"foundry_backup_{date_string}.zip"
 
-    if check_backup_dir(file_path):  # Checks if path is valid
-        print("Valid backup path! Zipping files...")
-        zip_directory(file_path, backUp_name)
-        print_hash(20)
-        print(f"File zipped as {backUp_name}!")
-        print_hash(20)
-    else:
-        print_hash(20)
-        print("Can't zip files, directory is not a valid foundry directory")
+    while True:
+        try:
+            if check_backup_dir(file_path):  # Checks if path is valid
+                print("Valid backup path! Zipping files...")
+                zip_directory(file_path, backUp_name)
+                print_hash(20)
+                print(f"File zipped as {backUp_name}!")
+                print_hash(20)
+                break
+            else:
+                print_hash(20)
+                print("Can't zip files, directory is not a valid foundry directory")
+        except:
+            print_hash(40)
+            print("Error accessing Foundry directory, checking MAC filepath")
+            file_path = os.path.expanduser("~/Library/Application Support/FoundryVTT")
+            if not check_backup_dir(file_path):  # Check if Mac filepath is valid
+                print_hash(40)
+                print("Mac filepath is also not valid. Please provide a valid path.")
+                break  # Break the loop if Mac filepath is not valid
 
     # Authentication and uploading
     drive_service = authenticate_google_drive()
@@ -66,10 +79,14 @@ def progress_bar(curr):
 
 
 def check_backup_dir(dir):
-    print("Checking path if valid...")
+    print_hash(40)
+    print(f"Checking path if valid: {dir}")
     backup_file_names = ["Backups", "Config", "Data", "Logs"]
+    print(os.listdir(dir))
     with os.scandir(dir) as entries:
         for entry in entries:
+            if entry.name == ".DS_Store":
+                continue
             if entry.name not in backup_file_names:
                 return False
     return True
@@ -85,11 +102,6 @@ def zip_directory(directory_path, zip_path):
                         os.path.join(root, file), os.path.join(directory_path, "..")
                     ),
                 )
-
-
-def print_hash(num):
-    res = num * "-"
-    print(res)
 
 
 def authenticate_google_drive():
