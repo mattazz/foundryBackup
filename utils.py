@@ -28,3 +28,10 @@ def authenticate_google_drive():
         with open("token.json", "w") as token:
             token.write(creds.to_json())
     return build("drive", "v3", credentials=creds)
+
+
+def progress_bar(curr):
+    max = 100
+    spaces = " " * (max - curr)
+    hashes = "#" * curr
+    print(f"[{hashes}{spaces}]")
