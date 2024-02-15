@@ -28,6 +28,3 @@ def unzipBackup(
     utils.print_hash(40)
 
     # Folder is FoundryVTT, the contents inside is the one you want to access and copy
-
-
-unzipBackup()

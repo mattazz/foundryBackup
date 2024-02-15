@@ -32,6 +32,7 @@ def main():
 |____/ \___/  \_/\_/  |_| \_|_____\___/_/   \_\____/    
           """
     )
+    print("Authenticating Google Drive...")
     drive_service = utils.authenticate_google_drive()
     folder_id = "1IxVV6fi73MZ9UqqqmNSjz124deqbVLnm"
     results = (
