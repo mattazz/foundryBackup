@@ -56,13 +56,10 @@ def progress_bar(curr):
 def check_os() -> str:
     current_os = platform.system()
     if current_os == "Windows":
-        print("You are running on Windows.")
         return "windows"
     elif current_os == "Darwin":
-        print("You are running on MacOS.")
         return "mac"
     else:
-        print("You are running on an unsupported operating system.")
         return "undefined"
 
 

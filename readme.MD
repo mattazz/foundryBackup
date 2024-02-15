@@ -7,4 +7,4 @@
 [] Fix deleting file (always in use)
 [] Add log function
 [x] Unzip and replace files for Mac
-[] Add Windows path for unzipping
+[x] Add Windows path for unzipping
