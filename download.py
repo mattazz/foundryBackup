@@ -9,7 +9,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 import io
 from googleapiclient.http import MediaIoBaseDownload
 
-
+# My own scripts
+import unzip
 import utils
 
 download_path = os.path.expanduser("~/Library/Application Support/FoundryVTT")
@@ -76,6 +77,9 @@ def main():
     utils.print_hash(40)
     print(f"File downloaded successfully: {file_name}")
     utils.print_hash(40)
+
+    # Unzip the file
+    unzip.unzipBackup()
 
 
 if __name__ == "__main__":
