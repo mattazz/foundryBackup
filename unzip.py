@@ -17,7 +17,16 @@ def unzipBackup(
         folder_name (str, optional): _description_. Defaults to "FoundryVTT".
     """
 
-    foundry_path = os.path.expanduser("~/Library/Application Support/")
+    curr_os = utils.check_os()
+
+    if curr_os == "mac":
+        # For mac
+        foundry_path = os.path.expanduser("~/Library/Application Support/")
+    elif curr_os == "windows":
+        print("Running windows")
+        foundry_path = "C:\Users\Matt\AppData\Local"
+    else:
+        print("undefined os.")
 
     # Unzips the file
     with zipfile.ZipFile(file_name, "r") as zip_ref:

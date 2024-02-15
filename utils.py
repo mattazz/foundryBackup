@@ -6,6 +6,7 @@ from googleapiclient.http import MediaFileUpload
 from datetime import datetime
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
+import platform
 
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 
@@ -50,3 +51,19 @@ def progress_bar(curr):
     spaces = " " * (max - curr)
     hashes = "#" * curr
     print(f"[{hashes}{spaces}]")
+
+
+def check_os() -> str:
+    current_os = platform.system()
+    if current_os == "Windows":
+        print("You are running on Windows.")
+        return "windows"
+    elif current_os == "Darwin":
+        print("You are running on MacOS.")
+        return "mac"
+    else:
+        print("You are running on an unsupported operating system.")
+        return "undefined"
+
+
+check_os()
