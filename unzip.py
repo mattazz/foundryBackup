@@ -24,7 +24,7 @@ def unzipBackup(
         foundry_path = os.path.expanduser("~/Library/Application Support/")
     elif curr_os == "windows":
         print("Running windows")
-        foundry_path = "C:\Users\Matt\AppData\Local"
+        foundry_path = "C:\\Users\\Matt\\AppData\\Local"
     else:
         print("undefined os.")
 
