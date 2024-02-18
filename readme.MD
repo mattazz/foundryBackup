@@ -8,3 +8,4 @@
 [] Add log function
 [x] Unzip and replace files for Mac
 [x] Add Windows path for unzipping
+[ ] fix windows bat file module not found, not activating venv
