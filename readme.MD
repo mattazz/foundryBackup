@@ -4,8 +4,8 @@
 4. profit
 
 # To do
-[] Fix deleting file (always in use)
-[] Add log function
+[ ] Fix deleting file (always in use)
+[ ] Add log function
 [x] Unzip and replace files for Mac
 [x] Add Windows path for unzipping
 [x] Fix windows bat file module not found, not activating venv
