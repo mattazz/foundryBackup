@@ -163,3 +163,5 @@ client_secrets.json
 token.json
 .vscode
 foundry*
+
+!Foundry_backup.bat
