@@ -10,3 +10,4 @@
 [x] Add Windows path for unzipping
 [x] Fix windows bat file module not found, not activating venv
 [ ] Make a bash file similar to the bat file 
+[ ] If token is invalid, do another request in auth.py
